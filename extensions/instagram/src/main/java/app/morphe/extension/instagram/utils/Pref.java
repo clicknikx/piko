@@ -127,7 +127,7 @@ public class Pref {
         return shouldBlockDmSeen(
                 SharedPref.getBooleanPref(Settings.VIEW_DM_ANONYMOUSLY),
                 Pref.getTurnOnAllGhostModes(),
-                enableMarkChatAsReadOption() || markAsReadAfterReply()
+                enableMarkChatAsReadOption() || markAsReadAfterReply() || SettingsStatus.viewDmAnonymously
         );
     }
 

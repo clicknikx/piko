@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -24,6 +25,7 @@ import java.util.Set;
 import java.util.WeakHashMap;
 
 import app.morphe.extension.crimera.sharedPreference.SharedPref;
+import app.morphe.extension.instagram.patches.dm.ManualChatSeen;
 import app.morphe.extension.instagram.utils.Pref;
 import app.morphe.extension.instagram.patches.navigation.NavigationBarPatch;
 import app.morphe.extension.instagram.settings.Settings;
@@ -214,6 +216,22 @@ public class ActionBarPatch {
         }
     }
 
+    private static void chatManualSeenButton(ViewGroup viewGroup) throws Exception {
+        if (SettingsStatus.viewDmAnonymously || SettingsStatus.ghostSection()) {
+            ImageView imageView = UI.addImageViewToViewGroup(viewGroup, UI.DRAWABLE_EYE_STROKE_ICON, null);
+            if (imageView == null) {
+                return;
+            }
+            ManualChatSeen.bindChatHeader(viewGroup, imageView);
+            imageView.setLongClickable(true);
+            imageView.setOnClickListener(v -> Utils.showToastShort(str("piko_dm_hold_to_mark_seen")));
+            imageView.setOnLongClickListener(v -> {
+                v.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                return ManualChatSeen.markCurrentChatAsSeen();
+            });
+        }
+    }
+
     public static void chatActionBarButton(ViewGroup viewGroup) {
         try {
             if (viewGroup == null) {
@@ -227,7 +245,7 @@ public class ActionBarPatch {
             }
 
             if(pref.contains(Constants.AB_GHOST_MODE_ICON)) {
-                ghostModeToggle(viewGroup);
+                chatManualSeenButton(viewGroup);
             }
 
             if(pref.contains(Constants.AB_JUMP_OLDEST_ICON)) {
@@ -245,6 +263,8 @@ public class ActionBarPatch {
             if (viewGroup == null) {
                 return;
             }
+
+            ManualChatSeen.onInboxOpened();
 
             Set<String> pref = Pref.inboxActionBarButtons();
 

@@ -40,6 +40,10 @@
     <string name="piko_turn_on_all_ghost_modes">Turn on all ghost modes</string>
     <string name="piko_ghost_modes_on">Ghost mode: ON</string>
     <string name="piko_ghost_modes_default">Ghost mode: DEFAULT</string>
+    <string name="piko_dm_hold_to_mark_seen">Hold the eye icon to mark this chat as seen</string>
+    <string name="piko_dm_marked_as_read">Marked chat as read</string>
+    <string name="piko_dm_nothing_to_mark_read">No unread messages to mark as read</string>
+    <string name="piko_dm_already_marked_as_read">Already marked as read</string>
 
     <!-- Distraction-Free Section -->
     <string name="piko_category_distraction_free">Distraction free</string>

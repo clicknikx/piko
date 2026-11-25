@@ -6,9 +6,12 @@
 
 package app.crimera.patches.instagram.misc.ghostMode
 
+import app.crimera.patches.instagram.utils.Constants.PATCHES_DESCRIPTOR
 import app.morphe.patcher.Fingerprint
 import app.morphe.patcher.string
 import com.android.tools.smali.dexlib2.AccessFlags
+
+internal const val MANUAL_CHAT_SEEN_EXTENSION = "$PATCHES_DESCRIPTOR/dm/ManualChatSeen;"
 
 // This fingerprint is also used in MarkAsRead patch.
 object DMSeenFingerprint : Fingerprint(
@@ -18,4 +21,9 @@ object DMSeenFingerprint : Fingerprint(
         listOf(
             string("mark_thread_seen-"),
         ),
+)
+
+internal object ManualChatSeenSendReceiptFingerprint : Fingerprint(
+    definingClass = MANUAL_CHAT_SEEN_EXTENSION,
+    name = "sendReceipt",
 )
