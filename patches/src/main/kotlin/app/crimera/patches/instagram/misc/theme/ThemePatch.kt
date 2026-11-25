@@ -58,6 +58,7 @@ val themePatch =
             writeMaterialYouOverlay(night = true)
             writeAmoledOverlay(originalApi31Base)
             writeAmoledMaterialYouOverlay()
+            writeAmoledPresetOverlays()
 
             enableSettings("theme")
             installComposePrismBlackRuntime(legacyAmoled = amoled == true)

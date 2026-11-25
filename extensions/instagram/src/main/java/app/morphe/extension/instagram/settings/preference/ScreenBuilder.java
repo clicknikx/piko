@@ -744,6 +744,16 @@ public class ScreenBuilder {
                             () -> MaterialYouTheme.canEnableAmoled(context)
                     )
             );
+            addPreference(
+                    helper.availableWhen(
+                            helper.listPreference(
+                                    str("piko_amoled_color_theme_title"),
+                                    str("piko_amoled_color_theme_desc"),
+                                    Settings.AMOLED_COLOR_THEME
+                            ),
+                            () -> MaterialYouTheme.canEnableAmoled(context)
+                    )
+            );
         }
         if (MaterialYouTheme.isMaterialYouAvailable()) {
             addPreference(

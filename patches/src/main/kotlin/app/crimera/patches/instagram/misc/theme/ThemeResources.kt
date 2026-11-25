@@ -404,6 +404,27 @@ internal fun writeAmoledMaterialYouOverlay(): File =
         values = supportedOverlayValues(amoledMaterialYouOverlayValues()),
     )
 
+internal fun amoledColorPresetOverlayValues(
+    preset: AmoledColorThemePreset,
+): OverlayValues {
+    val values =
+        amoledColorPresetOverlayMappings(preset) +
+            amoledSplashMappings +
+            mapOf(CREATION_BUTTON_BACKGROUND to preset.pressedBackground)
+    return OverlayValues(day = values, night = values)
+}
+
+internal fun writeAmoledPresetOverlays(): List<File> =
+    amoledColorThemePresets.map { preset ->
+        buildThemeOverlayTable(
+            sourceManifest = resourceFile("AndroidManifest.xml"),
+            sourcePublic = resourceFile("res/values/public.xml"),
+            packageName = packageMetadata.packageName,
+            outputFile = resourceFile("assets/piko/amoled_${preset.id}.arsc", copy = false),
+            values = supportedOverlayValues(amoledColorPresetOverlayValues(preset)),
+        )
+    }
+
 internal fun amoledOverlayValues(snapshot: Api31BaseSnapshot): OverlayValues =
     (
         snapshot.nightColors +

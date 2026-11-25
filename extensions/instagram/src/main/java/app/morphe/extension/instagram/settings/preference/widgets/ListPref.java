@@ -69,6 +69,9 @@ public class ListPref extends ListPreference {
             } else if (key == Settings.CHANGE_LIKE_ANIMATION.key) {
                 entries = ResourceUtils.getStringArray("piko_array_change_like_animation");
                 entriesValues = ResourceUtils.getStringArray("piko_array_change_like_animation_val");
+            } else if (Settings.AMOLED_COLOR_THEME.key.equals(key)) {
+                entries = ResourceUtils.getStringArray("piko_array_amoled_color_theme");
+                entriesValues = ResourceUtils.getStringArray("piko_array_amoled_color_theme_val");
             }
         } else {
             entries = ResourceUtils.getStringArray("piko_array_recmd_flag_states");

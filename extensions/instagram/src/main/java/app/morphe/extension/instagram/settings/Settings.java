@@ -13,6 +13,8 @@ public class Settings {
     public static final BooleanSetting PIKO_DEBUG = new BooleanSetting("piko_debug", false, REQUIRED);
     public static final BooleanSetting MATERIAL_YOU_THEME = new BooleanSetting("material_you_theme", false, NOT_REQUIRED);
     public static final BooleanSetting AMOLED_THEME = new BooleanSetting("amoled_theme", false, NOT_REQUIRED);
+    public static final StringSetting AMOLED_COLOR_THEME =
+            new StringSetting("amoled_color_theme", "default", NOT_REQUIRED);
     public static final StringSetting INSTAGRAM_THEME_MODE =
             new StringSetting("instagram_theme_mode", "-1", NOT_REQUIRED);
     public static final BooleanSetting INSTAGRAM_THEME_MODE_SYNCHRONIZED =

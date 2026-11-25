@@ -253,3 +253,155 @@ internal fun dynamicOverlayMappings(night: Boolean): Map<String, String> {
         aliases[alias] ?: value
     }
 }
+
+internal data class AmoledColorThemePreset(
+    val id: String,
+    val primary: String,
+    val primaryPressed: String,
+    val primaryContainer: String,
+    val onPrimary: String,
+    val onPrimaryContainer: String,
+    val onSurface: String,
+    val onSurfaceVariant: String,
+    val neutralMid: String,
+    val outline: String,
+    val outlineVariant: String,
+    val pressedBackground: String,
+)
+
+internal val amoledColorThemePresets =
+    listOf(
+        AmoledColorThemePreset(
+            id = "yellow",
+            primary = "#ffffd600",
+            primaryPressed = "#ffffea70",
+            primaryContainer = "#ff4a3b00",
+            onPrimary = "#ff000000",
+            onPrimaryContainer = "#fffff4b8",
+            onSurface = "#ffffea70",
+            onSurfaceVariant = "#ffd9b63c",
+            neutralMid = "#ffa88a28",
+            outline = "#ff8f741c",
+            outlineVariant = "#ff362c08",
+            pressedBackground = "#ff1c1705",
+        ),
+        AmoledColorThemePreset(
+            id = "amber",
+            primary = "#ffff9100",
+            primaryPressed = "#ffffb74d",
+            primaryContainer = "#ff4d2800",
+            onPrimary = "#ff000000",
+            onPrimaryContainer = "#ffffe0b2",
+            onSurface = "#ffffcc80",
+            onSurfaceVariant = "#ffe69c45",
+            neutralMid = "#ffb37328",
+            outline = "#ff99601d",
+            outlineVariant = "#ff3b2408",
+            pressedBackground = "#ff1f1204",
+        ),
+        AmoledColorThemePreset(
+            id = "cyan",
+            primary = "#ff00e5ff",
+            primaryPressed = "#ff84ffff",
+            primaryContainer = "#ff00424d",
+            onPrimary = "#ff000000",
+            onPrimaryContainer = "#ffb8f7ff",
+            onSurface = "#ff84f3ff",
+            onSurfaceVariant = "#ff4cc6d9",
+            neutralMid = "#ff3294a3",
+            outline = "#ff267c8a",
+            outlineVariant = "#ff0b2d33",
+            pressedBackground = "#ff06181c",
+        ),
+        AmoledColorThemePreset(
+            id = "green",
+            primary = "#ff00e676",
+            primaryPressed = "#ff69f0ae",
+            primaryContainer = "#ff004724",
+            onPrimary = "#ff000000",
+            onPrimaryContainer = "#ffb9f6ca",
+            onSurface = "#ff8effc1",
+            onSurfaceVariant = "#ff4fd18e",
+            neutralMid = "#ff339e67",
+            outline = "#ff288052",
+            outlineVariant = "#ff0b2e1c",
+            pressedBackground = "#ff05170e",
+        ),
+        AmoledColorThemePreset(
+            id = "pink",
+            primary = "#ffff4081",
+            primaryPressed = "#ffff80ab",
+            primaryContainer = "#ff520d26",
+            onPrimary = "#ff000000",
+            onPrimaryContainer = "#ffffd1e0",
+            onSurface = "#ffffa3c4",
+            onSurfaceVariant = "#ffe06c96",
+            neutralMid = "#ffa84c6d",
+            outline = "#ff8a3b58",
+            outlineVariant = "#ff361421",
+            pressedBackground = "#ff1c0910",
+        ),
+        AmoledColorThemePreset(
+            id = "red",
+            primary = "#ffff5252",
+            primaryPressed = "#ffff8a80",
+            primaryContainer = "#ff541010",
+            onPrimary = "#ff000000",
+            onPrimaryContainer = "#ffffd6d6",
+            onSurface = "#ffff9e9e",
+            onSurfaceVariant = "#ffe06666",
+            neutralMid = "#ffa84848",
+            outline = "#ff8a3636",
+            outlineVariant = "#ff381212",
+            pressedBackground = "#ff1c0808",
+        ),
+        AmoledColorThemePreset(
+            id = "purple",
+            primary = "#ffb388ff",
+            primaryPressed = "#ffd1b3ff",
+            primaryContainer = "#ff351c5e",
+            onPrimary = "#ff000000",
+            onPrimaryContainer = "#ffede0ff",
+            onSurface = "#ffd7bdff",
+            onSurfaceVariant = "#ffa984e3",
+            neutralMid = "#ff7d5eb0",
+            outline = "#ff674b94",
+            outlineVariant = "#ff251938",
+            pressedBackground = "#ff120b1c",
+        ),
+    )
+
+internal fun amoledColorPresetOverlayMappings(
+    preset: AmoledColorThemePreset,
+): Map<String, String> {
+    val aliases =
+        mapOf(
+            "piko_dynamic_primary" to preset.primary,
+            "piko_dynamic_primary_pressed" to preset.primaryPressed,
+            "piko_dynamic_primary_container" to preset.primaryContainer,
+            "piko_dynamic_on_primary" to preset.onPrimary,
+            "piko_dynamic_on_primary_container" to preset.onPrimaryContainer,
+            "piko_dynamic_background" to "#ff000000",
+            "piko_dynamic_pressed_background" to preset.pressedBackground,
+            "piko_dynamic_on_surface" to preset.onSurface,
+            "piko_dynamic_on_surface_variant" to preset.onSurfaceVariant,
+            "piko_dynamic_outline" to preset.outline,
+            "piko_dynamic_outline_variant" to preset.outlineVariant,
+            "piko_dynamic_switch_off_track" to preset.outlineVariant,
+            "piko_dynamic_prism_black" to "#ff000000",
+            "piko_dynamic_prism_white" to preset.onSurface,
+            "piko_dynamic_neutral_light" to preset.onSurfaceVariant,
+            "piko_dynamic_neutral_mid" to preset.neutralMid,
+            "piko_dynamic_neutral_dark" to preset.outlineVariant,
+            "piko_dynamic_neutral_deep" to preset.pressedBackground,
+        )
+
+    return materialYouNamedMappings.mapValues { (name, value) ->
+        if (name == "igds_elevated_highlight_background") {
+            preset.pressedBackground
+        } else {
+            val alias = value.removePrefix("@color/")
+            aliases[alias] ?: value
+        }
+    }
+}

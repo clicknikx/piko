@@ -22,14 +22,79 @@ final class MaterialYouState {
         return amoledEnabled ? ThemeMode.AMOLED : ThemeMode.BASE;
     }
 
+    static ThemeMode resolveMode(
+            boolean materialYouEnabled,
+            boolean amoledEnabled,
+            String amoledColorTheme
+    ) {
+        ThemeMode preset = presetModeForKey(amoledColorTheme);
+        if (preset != null) {
+            return preset;
+        }
+        return resolveMode(materialYouEnabled, amoledEnabled);
+    }
+
+    static ThemeMode presetModeForKey(String key) {
+        if (key == null) {
+            return null;
+        }
+        switch (key) {
+            case "yellow":
+                return ThemeMode.AMOLED_YELLOW;
+            case "amber":
+                return ThemeMode.AMOLED_AMBER;
+            case "cyan":
+                return ThemeMode.AMOLED_CYAN;
+            case "green":
+                return ThemeMode.AMOLED_GREEN;
+            case "pink":
+                return ThemeMode.AMOLED_PINK;
+            case "red":
+                return ThemeMode.AMOLED_RED;
+            case "purple":
+                return ThemeMode.AMOLED_PURPLE;
+            default:
+                return null;
+        }
+    }
+
+    static String presetKeyForMode(ThemeMode mode) {
+        if (mode == null) {
+            return "default";
+        }
+        switch (mode) {
+            case AMOLED_YELLOW:
+                return "yellow";
+            case AMOLED_AMBER:
+                return "amber";
+            case AMOLED_CYAN:
+                return "cyan";
+            case AMOLED_GREEN:
+                return "green";
+            case AMOLED_PINK:
+                return "pink";
+            case AMOLED_RED:
+                return "red";
+            case AMOLED_PURPLE:
+                return "purple";
+            default:
+                return "default";
+        }
+    }
+
+    static boolean isPresetMode(ThemeMode mode) {
+        return !"default".equals(presetKeyForMode(mode));
+    }
+
     static boolean hasMaterialYou(ThemeMode mode) {
         return mode == ThemeMode.MATERIAL_YOU
                 || mode == ThemeMode.AMOLED_MATERIAL_YOU;
     }
 
     static boolean hasAmoled(ThemeMode mode) {
-        return mode == ThemeMode.AMOLED
-                || mode == ThemeMode.AMOLED_MATERIAL_YOU;
+        return mode != null
+                && mode != ThemeMode.BASE
+                && mode != ThemeMode.MATERIAL_YOU;
     }
 
     static int composePrismOverrideArgb(
@@ -53,7 +118,7 @@ final class MaterialYouState {
             ThemeMode mode,
             int materialYouBackgroundArgb
     ) {
-        if (mode == ThemeMode.AMOLED_MATERIAL_YOU) {
+        if (mode == ThemeMode.AMOLED_MATERIAL_YOU || isPresetMode(mode)) {
             return 0xff000000;
         }
         return mode == ThemeMode.MATERIAL_YOU ? materialYouBackgroundArgb : 0;
@@ -270,13 +335,27 @@ final class MaterialYouState {
     }
 
     static ThemeMode modeForAmoledToggle(boolean enabled, ThemeMode currentMode) {
-        return resolveMode(hasMaterialYou(currentMode), enabled);
+        if (!enabled) {
+            return resolveMode(hasMaterialYou(currentMode), false);
+        }
+        if (isPresetMode(currentMode)) {
+            return currentMode;
+        }
+        return resolveMode(hasMaterialYou(currentMode), true);
+    }
+
+    static ThemeMode modeForAmoledColorTheme(String presetKey, ThemeMode currentMode) {
+        ThemeMode preset = presetModeForKey(presetKey);
+        if (preset != null) {
+            return preset;
+        }
+        return resolveMode(hasMaterialYou(currentMode), hasAmoled(currentMode));
     }
 
     static ThemeMode modeForEffectiveTheme(ThemeMode currentMode, boolean effectiveDark) {
         return effectiveDark
                 ? currentMode
-                : modeForAmoledToggle(false, currentMode);
+                : resolveMode(hasMaterialYou(currentMode), false);
     }
 
     static ThemeMode modeForNativeThemeSelection(ThemeMode currentMode) {

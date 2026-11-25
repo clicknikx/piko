@@ -282,6 +282,26 @@ public final class MaterialYouTheme {
         return requestAmoledChange(getActivity(context), enabled);
     }
 
+    public static boolean requestAmoledColorThemeChange(Context context, String presetKey) {
+        return requestAmoledColorThemeChange(getActivity(context), presetKey);
+    }
+
+    private static boolean requestAmoledColorThemeChange(Activity activity, String presetKey) {
+        ThemeMode targetMode = MaterialYouState.modeForAmoledColorTheme(
+                presetKey,
+                currentModeForRequest()
+        );
+        if (MaterialYouState.isPresetMode(targetMode) && !canEnableAmoled(activity)) {
+            return false;
+        }
+        return requestNativeThemeChange(
+                activity,
+                targetMode,
+                null,
+                null
+        );
+    }
+
     private static boolean requestAmoledChange(Activity activity, boolean enabled) {
         if (enabled && !canEnableAmoled(activity)) {
             return false;
@@ -356,6 +376,11 @@ public final class MaterialYouTheme {
             ThemeMode mode,
             boolean instagramDark
     ) {
+        if (MaterialYouState.isPresetMode(mode)
+                && instagramDark
+                && MaterialYouThemeAPI31.isReady(mode)) {
+            return mode;
+        }
         return MaterialYouState.availableRequestedModeOrFallback(
                 mode,
                 instagramDark,
@@ -555,7 +580,8 @@ public final class MaterialYouTheme {
     private static ThemeMode currentMode() {
         return MaterialYouState.resolveMode(
                 Boolean.TRUE.equals(SharedPref.getBooleanPref(Settings.MATERIAL_YOU_THEME)),
-                Boolean.TRUE.equals(SharedPref.getBooleanPref(Settings.AMOLED_THEME))
+                Boolean.TRUE.equals(SharedPref.getBooleanPref(Settings.AMOLED_THEME)),
+                SharedPref.getStringPref(Settings.AMOLED_COLOR_THEME)
         );
     }
 
@@ -566,13 +592,17 @@ public final class MaterialYouTheme {
     private static boolean persistMode(ThemeMode mode) {
         boolean materialYouEnabled = MaterialYouState.hasMaterialYou(mode);
         boolean amoledEnabled = MaterialYouState.hasAmoled(mode);
+        String presetKey = MaterialYouState.presetKeyForMode(mode);
         boolean materialYouWritten = Boolean.TRUE.equals(
                 SharedPref.setBooleanPref(Settings.MATERIAL_YOU_THEME.key, materialYouEnabled)
         );
         boolean amoledWritten = Boolean.TRUE.equals(
                 SharedPref.setBooleanPref(Settings.AMOLED_THEME.key, amoledEnabled)
         );
-        return materialYouWritten && amoledWritten;
+        boolean presetWritten = Boolean.TRUE.equals(
+                SharedPref.setStringPref(Settings.AMOLED_COLOR_THEME.key, presetKey)
+        );
+        return materialYouWritten && amoledWritten && presetWritten;
     }
 
     private static int currentInstagramThemeMode() {

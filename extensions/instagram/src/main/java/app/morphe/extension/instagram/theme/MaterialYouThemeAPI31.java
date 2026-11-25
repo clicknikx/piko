@@ -95,6 +95,19 @@ final class MaterialYouThemeAPI31 {
                 failure = exception;
             }
         }
+        for (OverlayMode presetMode : PRESET_OVERLAY_MODES) {
+            try {
+                prepareOverlay(
+                        preparedContext,
+                        presetMode,
+                        "piko/" + presetMode.assetBaseName + ".arsc"
+                );
+            } catch (IOException exception) {
+                if (failure == null) {
+                    failure = exception;
+                }
+            }
+        }
 
         if (LOADERS.isEmpty()) {
             applicationContext = null;
@@ -103,17 +116,12 @@ final class MaterialYouThemeAPI31 {
     }
 
     static synchronized boolean isReady(ThemeMode mode) {
-        switch (mode) {
-            case MATERIAL_YOU:
-                return LOADERS.containsKey(OverlayMode.MATERIAL_YOU_LIGHT)
-                        && LOADERS.containsKey(OverlayMode.MATERIAL_YOU_DARK);
-            case AMOLED:
-                return LOADERS.containsKey(OverlayMode.AMOLED);
-            case AMOLED_MATERIAL_YOU:
-                return LOADERS.containsKey(OverlayMode.AMOLED_MATERIAL_YOU);
-            default:
-                return false;
+        OverlayMode overlay = overlayFor(mode, true);
+        if (mode == ThemeMode.MATERIAL_YOU) {
+            return LOADERS.containsKey(OverlayMode.MATERIAL_YOU_LIGHT)
+                    && LOADERS.containsKey(OverlayMode.MATERIAL_YOU_DARK);
         }
+        return overlay != null && LOADERS.containsKey(overlay);
     }
 
     static synchronized int getSystemNightMask() {
@@ -207,18 +215,10 @@ final class MaterialYouThemeAPI31 {
     }
 
     private static String overlayFileName(OverlayMode mode) {
-        switch (mode) {
-            case MATERIAL_YOU_LIGHT:
-                return "piko-material-you-light.arsc";
-            case MATERIAL_YOU_DARK:
-                return "piko-material-you-dark.arsc";
-            case AMOLED:
-                return "piko-amoled.arsc";
-            case AMOLED_MATERIAL_YOU:
-                return "piko-amoled-material-you.arsc";
-            default:
-                throw new IllegalArgumentException("No overlay for " + mode);
+        if (mode.fileName != null) {
+            return mode.fileName;
         }
+        throw new IllegalArgumentException("No overlay for " + mode);
     }
 
     private static OverlayMode overlayFor(ThemeMode mode, boolean instagramDark) {
@@ -231,6 +231,20 @@ final class MaterialYouThemeAPI31 {
                 return OverlayMode.AMOLED;
             case AMOLED_MATERIAL_YOU:
                 return OverlayMode.AMOLED_MATERIAL_YOU;
+            case AMOLED_YELLOW:
+                return OverlayMode.AMOLED_YELLOW;
+            case AMOLED_AMBER:
+                return OverlayMode.AMOLED_AMBER;
+            case AMOLED_CYAN:
+                return OverlayMode.AMOLED_CYAN;
+            case AMOLED_GREEN:
+                return OverlayMode.AMOLED_GREEN;
+            case AMOLED_PINK:
+                return OverlayMode.AMOLED_PINK;
+            case AMOLED_RED:
+                return OverlayMode.AMOLED_RED;
+            case AMOLED_PURPLE:
+                return OverlayMode.AMOLED_PURPLE;
             default:
                 return null;
         }
@@ -330,10 +344,35 @@ final class MaterialYouThemeAPI31 {
         }
     }
 
+    private static final OverlayMode[] PRESET_OVERLAY_MODES = {
+            OverlayMode.AMOLED_YELLOW,
+            OverlayMode.AMOLED_AMBER,
+            OverlayMode.AMOLED_CYAN,
+            OverlayMode.AMOLED_GREEN,
+            OverlayMode.AMOLED_PINK,
+            OverlayMode.AMOLED_RED,
+            OverlayMode.AMOLED_PURPLE
+    };
+
     private enum OverlayMode {
-        MATERIAL_YOU_LIGHT,
-        MATERIAL_YOU_DARK,
-        AMOLED,
-        AMOLED_MATERIAL_YOU
+        MATERIAL_YOU_LIGHT(null, "piko-material-you-light.arsc"),
+        MATERIAL_YOU_DARK(null, "piko-material-you-dark.arsc"),
+        AMOLED(null, "piko-amoled.arsc"),
+        AMOLED_MATERIAL_YOU(null, "piko-amoled-material-you.arsc"),
+        AMOLED_YELLOW("amoled_yellow", "piko-amoled-yellow.arsc"),
+        AMOLED_AMBER("amoled_amber", "piko-amoled-amber.arsc"),
+        AMOLED_CYAN("amoled_cyan", "piko-amoled-cyan.arsc"),
+        AMOLED_GREEN("amoled_green", "piko-amoled-green.arsc"),
+        AMOLED_PINK("amoled_pink", "piko-amoled-pink.arsc"),
+        AMOLED_RED("amoled_red", "piko-amoled-red.arsc"),
+        AMOLED_PURPLE("amoled_purple", "piko-amoled-purple.arsc");
+
+        final String assetBaseName;
+        final String fileName;
+
+        OverlayMode(String assetBaseName, String fileName) {
+            this.assetBaseName = assetBaseName;
+            this.fileName = fileName;
+        }
     }
 }

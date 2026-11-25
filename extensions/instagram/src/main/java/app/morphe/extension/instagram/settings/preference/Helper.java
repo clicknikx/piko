@@ -224,6 +224,9 @@ public class Helper {
                     saved = SharedPref.setBooleanPref(key, val);
                 } else if (newValClass.equals("String")) {
                     String val = (String) newValue;
+                    if (Settings.AMOLED_COLOR_THEME.key.equals(key)) {
+                        return MaterialYouTheme.requestAmoledColorThemeChange(context, val);
+                    }
                     if(key.contains("_")) {
                         saved = SharedPref.setStringPref(key, val);
                     }else{

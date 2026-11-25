@@ -15,6 +15,28 @@
         <item>timeleft</item>
     </string-array>
 
+    <string-array name="piko_array_amoled_color_theme">
+        <item>@string/piko_array_default</item>
+        <item>Yellow + AMOLED</item>
+        <item>Amber Gold + AMOLED</item>
+        <item>Cyan + AMOLED</item>
+        <item>Emerald + AMOLED</item>
+        <item>Rose Pink + AMOLED</item>
+        <item>Crimson + AMOLED</item>
+        <item>Violet + AMOLED</item>
+    </string-array>
+
+    <string-array name="piko_array_amoled_color_theme_val">
+        <item>default</item>
+        <item>yellow</item>
+        <item>amber</item>
+        <item>cyan</item>
+        <item>green</item>
+        <item>pink</item>
+        <item>red</item>
+        <item>purple</item>
+    </string-array>
+
     <string-array name="piko_array_hidden_chats_taps">
         <item>2</item>
         <item>3</item>
