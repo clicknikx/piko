@@ -109,6 +109,8 @@
     <string name="piko_disable_double_tap_like_message">Mesaja çift tıklayıp beğenmeyi devre dışı bırak</string>
     <string name="piko_disable_double_tap_to_like">Çift dokunarak beğenmeyi devre dışı bırak</string>
     <!-- Miscellaneous Section -->
+    <string name="piko_category_appearance">Görünüm</string>
+    <string name="piko_category_posts">Gönderiler</string>
     <string name="piko_material_you_title">Material You</string>
     <string name="piko_amoled_title">AMOLED</string>
     <string name="piko_follow_back_indicator">Arkadaşlık durumu göstergesini etkinleştir</string>
@@ -241,8 +243,8 @@
     <string name="piko_download_file_name_token_variant_suffix">Varyant</string>
     <string name="piko_download_current_media">Mevcut medyayı indir</string>
     <string name="piko_download_as_image">Resim olarak indir</string>
-    <string name="piko_video_variants">Video varyantları</string>
-    <string name="piko_image_variants">Resim varyantları</string>
+    <string name="piko_video_variants">Video seçenekleri</string>
+    <string name="piko_image_variants">Görsel seçenekleri</string>
     <string name="piko_download_audio">Ses olarak indir</string>
     <string name="piko_download_options">İndirme seçenekleri</string>
     <string name="piko_copy_media_link">Medya bağlantısını kopyala</string>

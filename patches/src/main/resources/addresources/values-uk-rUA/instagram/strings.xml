@@ -109,6 +109,8 @@
     <string name="piko_disable_double_tap_like_message">Вимкнути like подвійним дотиком на повідомленнях</string>
     <string name="piko_disable_double_tap_to_like">Вимкнути like подвійним дотиком</string>
     <!-- Miscellaneous Section -->
+    <string name="piko_category_appearance">Зовнішній вигляд</string>
+    <string name="piko_category_posts">Дописи</string>
     <string name="piko_material_you_title">Material You</string>
     <string name="piko_amoled_title">AMOLED</string>
     <string name="piko_follow_back_indicator">Увімкнути індикатор взаємної підписки</string>
